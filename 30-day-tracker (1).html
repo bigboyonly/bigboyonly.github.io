@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#15181B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>30 Days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #15181B;
+    --surface: #1E2226;
+    --surface-2: #262B30;
+    --text: #E7EDF0;
+    --muted: #7C8790;
+    --accent: #4FA8D8;
+    --accent-soft: rgba(79,168,216,0.18);
+    --gold: #B8E3F2;
+    --border: #2C3236;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+  #app {
+    width: 100%;
+    max-width: 420px;
+    padding: 28px 20px 40px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 6px;
+    text-align: center;
+  }
+  .hero {
+    text-align: center;
+    padding: 8px 0 18px;
+  }
+  .hero-number {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 84px;
+    line-height: 1;
+    margin: 0;
+    color: var(--text);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .message {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--text);
+    line-height: 1.45;
+    margin: 16px 0 26px;
+    padding: 0 6px;
+  }
+  .start-btn, .primary-btn {
+    display: block;
+    width: 100%;
+    border: none;
+    background: var(--accent);
+    color: #15181B;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.1s ease, opacity 0.15s ease;
+  }
+  .start-btn:active, .primary-btn:active { transform: scale(0.98); }
+
+  .trail {
+    margin: 6px 0 28px;
+  }
+  .trail-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 30px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    padding: 0 2px;
+  }
+  .tick {
+    width: 5px;
+    height: 18px;
+    background: var(--border);
+    border-radius: 2px;
+    transform: translateY(1px);
+  }
+  .tick.done {
+    background: var(--accent);
+    height: 20px;
+  }
+  .tick.milestone {
+    width: 7px;
+    height: 24px;
+    background: transparent;
+    border: 1.5px dashed var(--gold);
+    border-radius: 2px;
+  }
+  .tick.milestone.done {
+    background: var(--gold);
+    border: none;
+    height: 26px;
+  }
+  .trail-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 2px;
+    margin-top: -10px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  textarea {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 12px;
+    resize: vertical;
+    min-height: 70px;
+  }
+  textarea::placeholder { color: var(--muted); }
+  .save-note {
+    margin-top: 10px;
+    background: var(--surface-2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .note-saved { color: var(--gold); font-size: 12px; margin-left: 10px; }
+
+  .past-notes { margin-top: 14px; }
+  .past-note {
+    border-top: 1px solid var(--border);
+    padding: 10px 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .past-note .date { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+  .toggle-link {
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  .setback-link {
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+    margin: 4px auto 22px;
+  }
+  .confirm-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  .confirm-box p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    margin: 0 0 16px;
+  }
+  .confirm-actions { display: flex; gap: 10px; }
+  .confirm-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+  }
+  .confirm-yes { background: var(--accent); color: #15181B; border: none; }
+  .confirm-no { background: transparent; color: var(--text); }
+
+  .stats {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .tip {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 22px;
+    line-height: 1.5;
+    opacity: 0.8;
+  }
+</style>
+</head>
+<body>
+<div id="app"><div class="eyebrow">loading…</div></div>
+
+<script>
+(function setupAppIcon() {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+      <rect width="192" height="192" rx="34" fill="#15181B"/>
+      <rect x="46" y="110" width="22" height="50" rx="5" fill="#3D87AC"/>
+      <rect x="85" y="84" width="22" height="76" rx="5" fill="#4FA8D8"/>
+      <rect x="124" y="54" width="22" height="106" rx="5" fill="#B8E3F2"/>
+    </svg>`;
+  const svgUri = 'data:image/svg+xml;base64,' + btoa(svg);
+  const img = new Image();
+  img.onload = function () {
+    const canvas = document.createElement('canvas');
+    canvas.width = 192; canvas.height = 192;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, 192, 192);
+    const pngUri = canvas.toDataURL('image/png');
+
+    const iconLink = document.createElement('link');
+    iconLink.rel = 'icon'; iconLink.type = 'image/png'; iconLink.sizes = '192x192';
+    iconLink.href = pngUri;
+    document.head.appendChild(iconLink);
+
+    const appleLink = document.createElement('link');
+    appleLink.rel = 'apple-touch-icon';
+    appleLink.href = pngUri;
+    document.head.appendChild(appleLink);
+
+    const manifest = {
+      name: '30 Days',
+      short_name: '30 Days',
+      start_url: '.',
+      display: 'standalone',
+      background_color: '#15181B',
+      theme_color: '#15181B',
+      icons: [
+        { src: pngUri, sizes: '192x192', type: 'image/png' },
+        { src: pngUri, sizes: '512x512', type: 'image/png' }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = URL.createObjectURL(blob);
+    document.head.appendChild(manifestLink);
+  };
+  img.src = svgUri;
+})();
+</script>
+<script>
+(async function () {
+  const STORAGE_KEY = 'recovery-tracker-state';
+  const app = document.getElementById('app');
+
+  function todayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+  function daysBetween(a, b) {
+    const da = new Date(a + 'T00:00:00');
+    const db = new Date(b + 'T00:00:00');
+    return Math.round((db - da) / 86400000);
+  }
+  function formatDate(s) {
+    const d = new Date(s + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  }
+
+  let state = {
+    streakStart: null,
+    notes: {},
+    pastStreaks: [],
+    bestStreak: 0,
+    attempts: 0
+  };
+  let showConfirm = false;
+  let showAllNotes = false;
+  let noteSavedFlash = false;
+
+  async function load() {
+    try {
+      const res = await window.storage.get(STORAGE_KEY, false);
+      if (res && res.value) state = JSON.parse(res.value);
+    } catch (e) { /* first run, no saved state */ }
+  }
+  async function save() {
+    try { await window.storage.set(STORAGE_KEY, JSON.stringify(state), false); }
+    catch (e) { console.error('save failed', e); }
+  }
+
+  function currentDay() {
+    if (!state.streakStart) return 0;
+    return daysBetween(state.streakStart, todayStr()) + 1;
+  }
+
+  function message(day) {
+    if (day <= 0) return "Ready when you are.";
+    if (day === 1) return "Day one. The hardest part is starting, and you just did it.";
+    if (day < 3) return "Stay with today. That's the whole job right now.";
+    if (day < 7) return "Cravings often peak around now. They pass faster than they promise to.";
+    if (day === 7) return "One week. The new pattern is starting to take hold.";
+    if (day < 14) return "Each day is making the next one a little easier.";
+    if (day === 14) return "Two weeks. You're proving something to yourself.";
+    if (day < 21) return "This is becoming a habit now, not just willpower.";
+    if (day === 21) return "Three weeks. This is who you're becoming, not just what you're avoiding.";
+    if (day < 30) return "Close now. Don't let the finish line make you careless.";
+    if (day === 30) return "Thirty days. You did the thing you set out to do.";
+    return "Past your goal. However far you take this next, it's yours.";
+  }
+
+  function tickRow(start, day) {
+    const milestones = [7, 14, 21, 30];
+    let html = '<div class="trail-row">';
+    for (let i = start; i < start + 10; i++) {
+      const done = i <= day;
+      const isMilestone = milestones.includes(i);
+      html += `<div class="tick${done ? ' done' : ''}${isMilestone ? ' milestone' : ''}"></div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function render() {
+    const day = currentDay();
+    const today = todayStr();
+    const started = !!state.streakStart;
+
+    if (!started) {
+      app.innerHTML = `
+        <div class="eyebrow">YOUR 30 DAYS</div>
+        <div class="hero">
+          <p class="hero-number" style="font-size:48px;">—</p>
+        </div>
+        <div class="message">${message(0)}</div>
+        <button class="start-btn" id="startBtn">Start my 30 days</button>
+        <div class="tip">Open this page from your phone's browser any time — it remembers where you left off. For one-tap access, add it to your home screen.</div>
+      `;
+      document.getElementById('startBtn').onclick = async () => {
+        state.streakStart = todayStr();
+        await save();
+        render();
+      };
+      return;
+    }
+
+    const displayDay = Math.min(day, 30);
+    const overflow = day > 30 ? day - 30 : 0;
+
+    let html = `
+      <div class="eyebrow">DAY</div>
+      <div class="hero">
+        <p class="hero-number">${day}</p>
+        <p class="hero-sub">${overflow > 0 ? `of 30 — ${overflow} bonus day${overflow === 1 ? '' : 's'}` : 'of 30'}</p>
+      </div>
+      <div class="message">${message(day)}</div>
+
+      <div class="trail">
+        ${tickRow(1, displayDay)}
+        ${tickRow(11, displayDay)}
+        ${tickRow(21, displayDay)}
+        <div class="trail-labels"><span>1</span><span>10</span><span>20</span><span>30</span></div>
+      </div>
+    `;
+
+    if (showConfirm) {
+      html += `
+        <div class="confirm-box">
+          <p>A setback isn't a failure — it's information. Your day count restarts from today, but the effort you've put in doesn't reset to zero. Continue?</p>
+          <div class="confirm-actions">
+            <button class="confirm-no" id="cancelBtn">Never mind</button>
+            <button class="confirm-yes" id="confirmBtn">Start over</button>
+          </div>
+        </div>
+      `;
+    } else {
+      html += `<span class="setback-link" id="setbackLink">Log a setback</span>`;
+    }
+
+    const noteVal = state.notes[today] || '';
+    html += `
+      <div class="card">
+        <h3>Today</h3>
+        <textarea id="noteInput" placeholder="Anything on your mind — urges, triggers, how today went. Optional.">${noteVal}</textarea>
+        <button class="save-note" id="saveNoteBtn">Save note</button>
+        ${noteSavedFlash ? '<span class="note-saved">Saved</span>' : ''}
+    `;
+
+    const noteDates = Object.keys(state.notes).sort().reverse();
+    if (noteDates.length > 1) {
+      const toShow = showAllNotes ? noteDates.slice(1) : noteDates.slice(1, 4);
+      html += `<div class="past-notes">`;
+      toShow.forEach(d => {
+        html += `<div class="past-note"><span class="date">${formatDate(d)}</span>${escapeHtml(state.notes[d])}</div>`;
+      });
+      html += `</div>`;
+      if (noteDates.length - 1 > 3) {
+        html += `<span class="toggle-link" id="toggleNotesLink">${showAllNotes ? 'Show less' : `View all notes (${noteDates.length - 1})`}</span>`;
+      }
+    }
+    html += `</div>`;
+
+    html += `<div class="stats">Longest streak: ${Math.max(state.bestStreak, day - 1)} day${Math.max(state.bestStreak, day - 1) === 1 ? '' : 's'} · Restarts: ${state.attempts}</div>`;
+    html += `<div class="tip">Add this page to your phone's home screen for one-tap access. Your progress stays saved here.</div>`;
+
+    app.innerHTML = html;
+
+    if (showConfirm) {
+      document.getElementById('cancelBtn').onclick = () => { showConfirm = false; render(); };
+      document.getElementById('confirmBtn').onclick = async () => {
+        const finishedDay = day - 1;
+        if (finishedDay > 0) {
+          state.pastStreaks.push({ length: finishedDay, endedOn: today });
+          state.bestStreak = Math.max(state.bestStreak, finishedDay);
+        }
+        state.attempts += 1;
+        state.streakStart = today;
+        showConfirm = false;
+        await save();
+        render();
+      };
+    } else {
+      document.getElementById('setbackLink').onclick = () => { showConfirm = true; render(); };
+    }
+
+    document.getElementById('saveNoteBtn').onclick = async () => {
+      const val = document.getElementById('noteInput').value.trim();
+      if (val) state.notes[today] = val;
+      else delete state.notes[today];
+      await save();
+      noteSavedFlash = true;
+      render();
+      setTimeout(() => { noteSavedFlash = false; render(); }, 1800);
+    };
+
+    const toggleLink = document.getElementById('toggleNotesLink');
+    if (toggleLink) toggleLink.onclick = () => { showAllNotes = !showAllNotes; render(); };
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  await load();
+  render();
+})();
+</script>
+</body>
+</html>
